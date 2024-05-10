@@ -1,10 +1,10 @@
 import requests
-import urllib.parse
 
 
-def get_weather(locations_list):
+def get_weather(locations_list, lang='en'):
     for loc in locations_list:
-        url = f"https://wttr.in/{loc}?nTqu&lang=en"
+        loc_encoded = requests.utils.quote(loc)
+        url = f"https://wttr.in/{loc_encoded}?nTqu&lang={lang}"
         response = requests.get(url)
         if response.status_code == 200:
             print(f"Weather for {loc}:")
@@ -13,18 +13,7 @@ def get_weather(locations_list):
             print(f"Failed to get weather data for {loc}, status code: {response.status_code}")
 
 
+# Запрос погоды для списка местоположений на английском и русском языках
 locations = ["London", "SVO", "Cherepovets"]
-get_weather(locations)
-
-
-def get_weather_ru(city):
-    city_encoded = urllib.parse.quote(city)
-    url = f"https://wttr.in/{city_encoded}?MTnq&lang=ru"
-    response = requests.get(url)
-    if response.status_code == 200:
-        print(response.text)
-    else:
-        print("Failed to get weather data:", response.status_code)
-
-
-get_weather_ru('Череповец')
+get_weather(locations, lang='en')  # Погода на английском языке
+get_weather(['Череповец'], lang='ru')  # Погода для Череповца на русском языке
