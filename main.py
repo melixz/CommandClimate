@@ -3,9 +3,9 @@ import requests
 
 def get_weather(locations_list, lang='en'):
     for loc in locations_list:
-        loc_encoded = requests.utils.quote(loc)
-        url = f"https://wttr.in/{loc_encoded}?nTqu&lang={lang}"
-        response = requests.get(url)
+        params = {'nTqu': '', 'lang': lang}
+        url = f"https://wttr.in/{loc}"
+        response = requests.get(url, params=params)
         if response.status_code == 200:
             print(f"Weather for {loc}:")
             print(response.text)
